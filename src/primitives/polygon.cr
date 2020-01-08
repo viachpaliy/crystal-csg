@@ -12,5 +12,23 @@ module CSG
       @plane = Plane.from_points(vertices[0].pos,vertices[1].pos,vertices[2].pos)
     end
 
+    def clone
+       _v = Array(Vertex).new
+       @vertices.each do |elem|
+         _v << elem.clone
+       end
+       Polygon.new _v
+    end
+
+    def flip
+      _v = Array(Vertex).new
+      @vertices.reverse_each do |elem|
+        _v << elem.flip
+      end
+      @vertices = _v
+      @plane.flip
+      self
+    end
+
   end
 end
