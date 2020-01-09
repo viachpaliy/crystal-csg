@@ -15,6 +15,10 @@ module CSG
       @w = w
     end
 
+    def clone
+      Plane.new(@normal, @w)
+    end
+
     def self.from_points(a : Vector, b : Vector, c : Vector)
       n = b.minus(a).cross(c.minus(a)).unit
       Plane.new(n, n.dot(a))
