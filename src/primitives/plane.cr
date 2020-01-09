@@ -5,6 +5,10 @@ module CSG
     
     property normal : Vector, w : Float64
     EPSILON = 1e-5
+    COPLANAR = 0
+    FRONT = 1
+    BACK = 2
+    SPANNING = 3
 
     def initialize(normal : Vector, w : Float64)
       @normal = normal.clone
@@ -29,11 +33,7 @@ module CSG
     # either *front* or *back*.
 
     def split_polygon(polygon : Polygon , coplanarFront : Array(Polygon), coplanarBack : Array(Polygon), front : Array(Polygon), back : Array(Polygon))
-      COPLANAR = 0
-      FRONT = 1
-      BACK = 2
-      SPANNING = 3
-
+ 
       # Classify each point as well as the entire polygon into one of the above
       # four classes.
       polygonType = 0
@@ -76,7 +76,7 @@ module CSG
           end
           front << Polygon.new(f) if f.size >= 3
           back << Polygon.new(b) if b.size >= 3
-                             
+        end                     
       end
 
     end

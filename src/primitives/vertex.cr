@@ -17,6 +17,7 @@ module CSG
     # orientation of a polygon is flipped.
     def flip
       @normal = @normal.negated
+      self
     end
 
     # Create a new vertex between this vertex and `other` by linearly
