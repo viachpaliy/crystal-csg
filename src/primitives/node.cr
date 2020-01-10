@@ -60,6 +60,30 @@ module CSG
       self
     end
 
+    # Recursively remove all polygons in `polygons` 
+    # that are inside this BSP tree.
+    def clip_polygons(polygons : Array(Polygon)) : Array(Polygon)
+      result = Array(Polygon).new
+      if p = @plane
+        f = Array(Polygon).new
+        b = Array(Polygon).new
+        polygons.each do |plg|
+          p.split_polygon(plg, f, b, f, b)
+        end
+        if fr = @front
+           f = fr.clip_polygons(f) 
+        end
+        if bc = @back
+          b = bc.clip_polygons(b)
+        else
+          b = Array(Polygon).new 
+        end
+        result = f.concat(b)
+      else
+        result = polygons.clone
+      end
+      result 
+    end
 
   end
 
