@@ -2,7 +2,7 @@ require "../../src/csg"
 require "spec"
 
 describe CSG::Node do
-  context "test methods" do
+  context "test initialize" do
     it "when initialize without args" do 
       a = CSG::Node.new
       a.should_not be_nil
@@ -11,7 +11,18 @@ describe CSG::Node do
       a.@back.should be_nil
       a.@polygons.should be_a(Array(CSG::Polygon))
     end
-  
+
+    it "when initialize with args" do 
+      a = CSG::Vertex.new(CSG::Vector.new(1.0, 2.0, 3.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      b = CSG::Vertex.new(CSG::Vector.new(11.0, 12.0, 13.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      c = CSG::Vertex.new(CSG::Vector.new(21.0, 22.0, 23.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      p = CSG::Polygon.new([a, b, c])
+      ps = [p,p.flip]
+      a = CSG::Node.new(ps)
+      a.@polygons.should be_a(Array(CSG::Polygon))
+    end
+  end
+  context "test methods" do
     it "when invert node initialize without args" do 
       b = CSG::Node.new
       a = b.invert

@@ -137,12 +137,18 @@ module CSG
           pl.split_polygon(p , @polygons, @polygons, f, b)
         end
         if f.size > 0
-          @front = Node.new if @front.nil?
-          @front.build(f)
+          @front = Node.new if @front.nil? 
+          if fr = @front
+            fr.build(f)
+            @front = fr
+          end
         end
         if b.size >0
           @back = Node.new if @back.nil?
-          @back.build(b)
+          if bc = @back
+            bc.build(b)
+            @back = bc
+          end
         end
       end
       self

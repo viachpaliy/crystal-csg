@@ -60,13 +60,12 @@ module CSG
         when SPANNING
           f = Array(Vertex).new
           b = Array(Vertex).new
-          i =0
-          while i<polygon.vertices.size do 
+          (0..polygon.vertices.size).each do |i| 
             j = Int32.new((i + 1) % polygon.vertices.size)
             ti = types[i]
             tj = types[j]
             vi = polygon.vertices[i]
-            vj = polygon.Vertices[j]
+            vj = polygon.vertices[j]
             f << vi if (ti != BACK)
             if (ti != FRONT)
                 ti != BACK ? b << vi.clone : b << vi
@@ -84,6 +83,7 @@ module CSG
       end
 
     end
-
   end
-end
+
+
+
