@@ -60,7 +60,7 @@ module CSG
         when SPANNING
           f = Array(Vertex).new
           b = Array(Vertex).new
-          (0..polygon.vertices.size).each do |i| 
+          (0...polygon.vertices.size).each do |i| 
             j = Int32.new((i + 1) % polygon.vertices.size)
             ti = types[i]
             tj = types[j]

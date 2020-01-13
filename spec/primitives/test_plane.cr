@@ -32,5 +32,55 @@ describe CSG::Plane do
       b.normal.z.should eq(-3.0)
       b.w.should eq(-4.0)
     end
+  end
+  context "test split_polygon method" do
+    it "when front polygon " do
+      a = CSG::Vertex.new(CSG::Vector.new(1.0, 2.0, 3.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      b = CSG::Vertex.new(CSG::Vector.new(11.0, 12.0, 13.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      c = CSG::Vertex.new(CSG::Vector.new(21.0, 22.0, 23.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      p = CSG::Polygon.new([a, b, c])
+      d = CSG::Plane.new(CSG::Vector.new(0.0, 0.0, 1.0),0.0)
+      cf = Array(CSG::Polygon).new
+      cb = Array(CSG::Polygon).new
+      f = Array(CSG::Polygon).new
+      bk = Array(CSG::Polygon).new
+      d.split_polygon(p, cf, cb, f, bk)
+      f.size.should eq(1)
+      bk.size.should eq(0)
+      cf.size.should eq(0)
+      cb.size.should eq(0)
+    end
+    it "when back polygon " do
+      a = CSG::Vertex.new(CSG::Vector.new(1.0, 2.0, -3.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      b = CSG::Vertex.new(CSG::Vector.new(11.0, 12.0, -13.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      c = CSG::Vertex.new(CSG::Vector.new(21.0, 22.0, -23.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      p = CSG::Polygon.new([a, b, c])
+      d = CSG::Plane.new(CSG::Vector.new(0.0, 0.0, 1.0),0.0)
+      cf = Array(CSG::Polygon).new
+      cb = Array(CSG::Polygon).new
+      f = Array(CSG::Polygon).new
+      bk = Array(CSG::Polygon).new
+      d.split_polygon(p, cf, cb, f, bk)
+      f.size.should eq(0)
+      bk.size.should eq(1)
+      cf.size.should eq(0)
+      cb.size.should eq(0)
+    end
+    it "when split polygon " do
+      a = CSG::Vertex.new(CSG::Vector.new(1.0, 2.0, -3.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      b = CSG::Vertex.new(CSG::Vector.new(11.0, 12.0, 13.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      c = CSG::Vertex.new(CSG::Vector.new(21.0, 22.0, 23.0),CSG::Vector.new(4.0, 5.0, 6.0))
+      p = CSG::Polygon.new([a, b, c])
+      d = CSG::Plane.new(CSG::Vector.new(0.0, 0.0, 1.0),0.0)
+      cf = Array(CSG::Polygon).new
+      cb = Array(CSG::Polygon).new
+      f = Array(CSG::Polygon).new
+      bk = Array(CSG::Polygon).new
+      d.split_polygon(p, cf, cb, f, bk)
+      f.size.should eq(1)
+      bk.size.should eq(1)
+      cf.size.should eq(0)
+      cb.size.should eq(0)
+    end
   end 
 end
