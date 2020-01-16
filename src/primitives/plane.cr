@@ -52,11 +52,11 @@ module CSG
       # Put the polygon in the correct list, splitting it when necessary.
       case polygonType
         when COPLANAR
-          @normal.dot(polygon.plane.normal) > 0 ? coplanarFront << polygon : coplanarBack << polygon
+          @normal.dot(polygon.plane.normal) > 0 ? coplanarFront << polygon.clone : coplanarBack << polygon.clone
         when FRONT
-          front << polygon
+          front << polygon.clone
         when BACK
-          back << polygon
+          back << polygon.clone
         when SPANNING
           f = Array(Vertex).new
           b = Array(Vertex).new
