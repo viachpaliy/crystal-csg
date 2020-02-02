@@ -157,6 +157,30 @@ describe Geo2D::Coordinate do
     a.dot(b).should eq(2.3)
   end
 
+  it "test distance_to method" do
+    a = Geo2D::Coordinate.new(3.0, 0.0)
+    b = Geo2D::Coordinate.new(0.0, 4.0)
+    a.distance_to(b).should eq(5.0)
+  end
+
+  it "test angle method" do
+    a = Geo2D::Coordinate.new(3.0, 3.0)
+    a.angle.should eq(Math::PI/4)
+  end
+
+  it "test angle_to method" do
+    a = Geo2D::Coordinate.new(3.0, 3.0)
+    b = Geo2D::Coordinate.new(4.0, 4.0)
+    a.angle_to(b).should eq(Math::PI/4)
+  end
+
+  it "test angle_between method" do
+    a = Geo2D::Coordinate.new(3.0, 3.0)
+    b = Geo2D::Coordinate.new(5.0, 3.0)
+    c = Geo2D::Coordinate.new(4.0, 4.0)
+    a.angle_between(b, c).should eq(Math::PI/4)
+  end
+
   describe "rotate method" do
     it "rotate around (0.,0.) with a given angle vector" do
       a = Geo2D::Coordinate.new(0.0, 1.0)
@@ -181,6 +205,21 @@ describe Geo2D::Coordinate do
       b = a.rotate Geo2D::Coordinate.new(1.0, 1.0), 0.927295218
       b.x.should be_close(0.2, 1e-6)
       b.y.should be_close(1.6, 1e-6)
+    end
+  end
+
+  describe "scale method" do
+    it "scale by given factor with (0, 0) as center" do
+      a = Geo2D::Coordinate.new(1.234, 5.678)
+      b = a.scale 2.345
+      b.x.should eq(1.234 * 2.345)
+      b.y.should eq(5.678 * 2.345)      
+    end
+    it "scale by given factors with (0, 0) as center" do
+      a = Geo2D::Coordinate.new(1.234, 5.678)
+      b = a.scale Geo2D::Coordinate.new(2.0, 3.0)
+      b.x.should eq(1.234 * 2.0)
+      b.y.should eq(5.678 * 3.0)      
     end
   end
 

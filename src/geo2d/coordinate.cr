@@ -88,6 +88,28 @@ module Geo2D
       Coordinate.new y, x
     end
 
+    # Calculate the distance between this coordinate and another coordinate
+    def distance_to(point : Coordinate)
+      (self - point).magnitude
+    end
+
+    # Angle from (0, 0) to coordinate
+    def angle
+      Math.atan2 y, x
+    end
+
+    # Returns angle To the coordinate
+    def angle_to(point : Coordinate)
+      (point - (self)).angle
+    end
+
+    # The angle between two points using the current point as the center
+    def angle_between(point1 : Coordinate, point2 : Coordinate)
+      v_start = point1 - self
+      v_end = point2 - self
+      Math.atan2(v_start.x * v_end.y - v_start.y * v_end.x, v_start.x * v_end.x + v_start.y * v_end.y)
+    end
+
     # Rotate around (0.,0.) with a given angle vector
     def rotate(angle_vector : Coordinate)
       x0 = x * angle_vector.x - y * angle_vector.y
@@ -109,6 +131,22 @@ module Geo2D
     def rotate(point : Coordinate, angle : Float64)
       rotate(point, Coordinate.new(angle))
     end 
+
+    # Around a point where the rotation described length is known
+    def rotate_by_arc_length(point : Coordinate, length : Float64)
+      angle = length / point.distance_to(self)
+      rotate(point, Coordinate.new(angle))
+    end
+
+    # Scale the coordinate by given factor with (0, 0) as center
+    def scale(scale_factor : Float64)
+      Coordinate.new x * scale_factor, y * scale_factor
+    end
+
+    # Scale the coordinate by given factors with (0, 0) as center
+    def scale(scale_factor : Coordinate)
+      Coordinate.new x * scale_factor.x, y * scale_factor.y
+    end
 
   end 
 
