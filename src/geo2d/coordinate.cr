@@ -138,14 +138,50 @@ module Geo2D
       rotate(point, Coordinate.new(angle))
     end
 
-    # Scale the coordinate by given factor with (0, 0) as center
+    # Scales the coordinate by given factor with (0, 0) as center
     def scale(scale_factor : Float64)
       Coordinate.new x * scale_factor, y * scale_factor
     end
 
-    # Scale the coordinate by given factors with (0, 0) as center
+    # Scales the coordinate by given factors with (0, 0) as center
     def scale(scale_factor : Coordinate)
       Coordinate.new x * scale_factor.x, y * scale_factor.y
+    end
+
+    # Scales this coordinate by the given factors with the given center
+    def scale(scale_center : Coordinate, scale_factor : Coordinate)
+      scale_center + ((self - scale_center) * scale_factor)
+    end
+
+    # Midpoint between two coordinates
+    def midpoint(other : Coordinate)
+      (other - self)/2.0 + self
+    end
+
+    # Normalised version of this coordinate
+    def norm
+      m = magnitude
+      Coordinate.new x / m, y / m
+    end
+
+    # Move the coordinate by distance d over vector direction
+    def move(direction : Coordinate, d : Float64)
+      direction.norm * d + self
+    end
+
+    # Move the coordinate in the direction of point 'to' with distance d
+    def move_to(to : Coordinate, d : Float64)
+      (to - self).norm * d + self
+    end
+
+    # Mirror a coordinate
+    # axis1 : First point of line to be mirrored about
+    # axis2 : Second point of line to be mirrored about
+    def mirror(axis1 : Coordinate, axis2 : Coordinate)
+      dir = axis2 - axis1
+      a = dir.squared
+      ret= axis1 + dir * (self- axis1).dot(dir)/a
+      ret + ret - self
     end
 
   end 

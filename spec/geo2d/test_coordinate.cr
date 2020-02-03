@@ -221,6 +221,52 @@ describe Geo2D::Coordinate do
       b.x.should eq(1.234 * 2.0)
       b.y.should eq(5.678 * 3.0)      
     end
+    it "scale by the given factors with the given center" do
+      a = Geo2D::Coordinate.new(2.0, 2.0)
+      b = a.scale Geo2D::Coordinate.new(1.0, 1.0), Geo2D::Coordinate.new(2.0, 3.0)
+      b.x.should eq(3.0)
+      b.y.should eq(4.0)      
+    end
+  end
+
+  it "test midpoint method" do
+    a = Geo2D::Coordinate.new(5.0, 3.0) 
+    b = a.midpoint Geo2D::Coordinate.new(3.0, 1.0)
+    b.should be_a(Geo2D::Coordinate)
+    b.x.should eq(4.0)
+    b.y.should eq(2.0)
+  end
+
+  it "test norm method " do
+    a = Geo2D::Coordinate.new(4.0, 3.0) 
+    b = a.norm
+    b.should be_a(Geo2D::Coordinate)
+    b.x.should eq(0.8)
+    b.y.should eq(0.6)
+  end
+
+  it "move the coordinate by distance d over vector direction " do
+    a = Geo2D::Coordinate.new(4.0, 3.0) 
+    b = a.move Geo2D::Coordinate.new(1.0,0.0), 2.0
+    b.should be_a(Geo2D::Coordinate)
+    b.x.should eq(6.0)
+    b.y.should eq(3.0)
+  end
+
+  it "move the coordinate in the direction of point 'to' with distance d " do
+    a = Geo2D::Coordinate.new(4.0, 3.0) 
+    b = a.move_to Geo2D::Coordinate.new(10.0,3.0), 2.0
+    b.should be_a(Geo2D::Coordinate)
+    b.x.should eq(6.0)
+    b.y.should eq(3.0)
+  end
+
+  it "test mirror method" do
+    a = Geo2D::Coordinate.new(-2.0,3.0)
+    b = a.mirror Geo2D::Coordinate.new(5.0,5.0), Geo2D::Coordinate.new(-4.0,-4.0)
+    b.should be_a(Geo2D::Coordinate)
+    b.x.should eq(3.0)
+    b.y.should eq(-2.0)
   end
 
 end
